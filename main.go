@@ -25,14 +25,14 @@ const (
 	LOG_UP   = false
 	LOG_DOWN = true
 	LOG_DBG  = false
-	LOG_API  = true
+	LOG_API  = false
 
 	// Databse
 	DB_NAME              = "uptime.db"
 	DB_TABLE_INSTANT     = "instant_feed"
 	DB_TABLE_DAILY       = "daily_averages"
 	DB_CLEANUP_INTERVAL  = 24 * time.Hour
-	DB_CLEANUP_THRESHOLD = -48 * time.Hour
+	DB_CLEANUP_THRESHOLD = -24 * 7 * time.Hour
 )
 
 var db *UptimeDB
@@ -260,7 +260,7 @@ func apiInstant(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Read the data from the database
-	threshold := time.Now().Add(-24 * time.Hour).Truncate(time.Hour).Add(time.Hour)
+	threshold := time.Now().Add(-48 * time.Hour).Truncate(time.Hour).Add(time.Hour)
 	rows, err := db.Query("SELECT * FROM " + DB_TABLE_INSTANT + " WHERE time > datetime(?)", threshold)
 	if err != nil {
 		log.Printf("Failed to read from table %s: %v\n", DB_TABLE_INSTANT, err)

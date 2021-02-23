@@ -2,6 +2,8 @@
 
 A simple, self-contained solution for home Internet connection uptime monitoring written in Go.
 
+`./internet-uptime-dashboard 2>> server.log &`
+
 ## Features
 
 This tool trades customisability for simplicity. The frontend consists of a single web-page showing a combination of uptime data charts. All the data is collected, stored and served using a single Go applicaton and a standalone sqlite3 database.
